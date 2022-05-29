@@ -12,22 +12,29 @@ export default function Countries() {
         fetch('https://restcountries.com/v3.1/all')
             .then(res => res.json())
             .then(data => {
-                // setSearched(data);
+                setSearched(data);
                 setCountries(data)
             });
     }, []);
+
+    const handleSearch = text =>{
+        const filtered = countries.filter(country => country.name.common.includes(text));
+        setSearched(filtered);
+    }
+
+
     return (
         <View>
-            <Text style={styles.header}>Countries:{countries.length}</Text>
+            <Text style={styles.header}>Countries:{searched.length}</Text>
 
             <TextInput
-                // onChangeText={handleSearch}
+                onChangeText={handleSearch}
                 style={styles.input}
             ></TextInput>
 
             <ScrollView>
                 {
-                    countries.map(country => <Country
+                    searched.map(country => <Country
 
                         key={country.ccn3}
                         country={country}>
